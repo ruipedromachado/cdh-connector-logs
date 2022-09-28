@@ -3,7 +3,7 @@
  */
 
 --run "npm install" to install all node packages
---create a file called ".env"
+--create a file called ".env" (or copy and rename the available example "env-file-example.env")
 --add the following content to the ".env" file
 
 TIQ_USER={{your_tiq_user_name}}
