@@ -15,10 +15,10 @@ module.exports = {
     },
     getRandom: () => { return new Date().getTime(); },
     exportToCsv: (data) => {
-        var payload = ["time, connectorName, actionName, totalErrors, errorDescription"];
+        var payload = ["time,connectorName,actionName,totalExistingErrors,totalErrorsExported,errorDescription"];
         data.forEach(entry => {
             entry.errorDetails.forEach(detail => {
-                payload.push([detail.time, entry.connectorName, entry.actionName, entry.totalErrors, detail.message.replace(/\n/ig, "").replace(/,/ig, "|")].join(","));
+                payload.push([detail.time, entry.connectorName, entry.actionName, entry.totalErrors, entry.errorDetails.length, detail.message.replace(/\n/ig, "").replace(/,/ig, "|")].join(","));
             });
         });
         fs.writeFileSync('./output/' + process.env.CDH_ACCOUNT + "-" + process.env.CDH_PROFILE + "-" + new Date().getTime() + ".CSV", payload.join('\n'));
