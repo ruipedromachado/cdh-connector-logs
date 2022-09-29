@@ -28,7 +28,6 @@ module.exports = {
         return payload;
     },
     getCdhActions: async (sessionDetails) => {
-        var urlSSO = process.env.USE_SSO === "true" ? "sso":"my";
         var payload = [];
         var qsData = qs.stringify({
             utk: sessionDetails.utk,
@@ -36,7 +35,7 @@ module.exports = {
             cb: utils.getRandom(),
             tool: utils.toolName
         });
-        var cdhProfileUrl = 'https://' + urlSSO + '.tealiumiq.com/urest/datacloud/' + process.env.CDH_ACCOUNT + '/' + process.env.CDH_PROFILE + '/profile?' + qsData;
+        var cdhProfileUrl = 'https://sso.tealiumiq.com/urest/datacloud/' + process.env.CDH_ACCOUNT + '/' + process.env.CDH_PROFILE + '/profile?' + qsData;
         var cdhProfileRequest = await axios({
             method: 'GET',
             url: cdhProfileUrl,
@@ -54,7 +53,6 @@ module.exports = {
         return payload;
     },
     getFailedActionsDetails: async (actions, sessionDetails) => {
-        var urlSSO = process.env.USE_SSO === "true" ? "sso":"my";
         var payload = [];
         var dateRange = utils.getDateRange();
         for (var index = 0; index < actions.length; index++) {
@@ -66,7 +64,7 @@ module.exports = {
                 tool: utils.toolName
             });
             var errorDataRequestUrl =
-                'https://' + urlSSO + '.tealiumiq.com/urest/datacloud/' + process.env.CDH_ACCOUNT + '/' + process.env.CDH_PROFILE + '/audit/' + action.connectorId + '/' + action.actionId + '?' + errorDataRequestQs;
+                'https://sso.tealiumiq.com/urest/datacloud/' + process.env.CDH_ACCOUNT + '/' + process.env.CDH_PROFILE + '/audit/' + action.connectorId + '/' + action.actionId + '?' + errorDataRequestQs;
             var errorDataRequest = await axios({
                 method: 'GET',
                 url: errorDataRequestUrl,
@@ -88,7 +86,7 @@ module.exports = {
                 tool: utils.toolName
             });
             var errorDescriptionsRequestUrl =
-                'https://' + urlSSO + '.tealiumiq.com/urest/datacloud/' + process.env.CDH_ACCOUNT + '/' + process.env.CDH_PROFILE + '/audit/' + action.connectorId + '/' + action.actionId + '/errors?' + errorDescriptionsRequestQs;
+                'https://sso.tealiumiq.com/urest/datacloud/' + process.env.CDH_ACCOUNT + '/' + process.env.CDH_PROFILE + '/audit/' + action.connectorId + '/' + action.actionId + '/errors?' + errorDescriptionsRequestQs;
             var errorDescriptionsRequest = await axios({
                 method: 'GET',
                 url: errorDescriptionsRequestUrl,
