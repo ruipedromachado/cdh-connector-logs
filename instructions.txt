@@ -10,7 +10,6 @@ TIQ_USER={{your_tiq_user_name}}
 TIQ_PASS={{your_tiq_password}}
 CDH_ACCOUNT={{cdh_account}}
 CDH_PROFILE={{cdh_profile}}
-USE_SSO={{true_or_false}}
 
 --run "node app.js"
 --check CSV file located in the "output" folder
