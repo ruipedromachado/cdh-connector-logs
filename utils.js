@@ -1,8 +1,7 @@
 const fs = require('fs');
-
 require('dotenv').config();
 
-module.exports = {
+var mod = {
     getDateRange: (justYesterday) => {  
         var payload = {};
         var yesterday = new Date();
@@ -19,17 +18,20 @@ module.exports = {
         return payload;
     },
     getRandom: () => { return new Date().getTime(); },
+    normaliseCsvString: (data) => {
+        return '"' + data.replace(/"/ig, "").replace(/\n/ig, "").replace(/,/ig, "|") + '"';
+    },
     exportToCsv: (data) => {
         var payload = ["time,connectorName,actionName,totalExistingErrors,totalErrorsExported,errorDescription"];
         data.forEach(entry => {
             entry.errorDetails.forEach(detail => {
                 payload.push([
                     detail.time, 
-                    '"' + entry.connectorName.replace(/"/ig, "").replace(/\n/ig, "").replace(/,/ig, "|") + '"', 
-                    '"' + entry.actionName.replace(/"/ig, "").replace(/\n/ig, "").replace(/,/ig, "|") + '"', 
+                    mod.normaliseCsvString(entry.connectorName), 
+                    mod.normaliseCsvString(entry.actionName), 
                     entry.totalErrors, 
                     entry.errorDetails.length, 
-                    '"' + detail.message.replace(/"/ig, "").replace(/\n/ig, "").replace(/,/ig, "|") + '"'
+                    mod.normaliseCsvString(detail.message)
                 ].join(","));
             });
         });
@@ -37,3 +39,5 @@ module.exports = {
     },
     toolName: "connector-error-logs"
 }
+
+module.exports = mod;
