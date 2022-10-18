@@ -52,9 +52,8 @@ module.exports = {
         });
         return payload;
     },
-    getFailedActionsDetails: async (actions, sessionDetails) => {
+    getFailedActionsDetails: async (actions, sessionDetails, dateRange) => {
         var payload = [];
-        var dateRange = utils.getDateRange();
         for (var index = 0; index < actions.length; index++) {
             var action = actions[index];
             var errorDataRequestQs = qs.stringify({

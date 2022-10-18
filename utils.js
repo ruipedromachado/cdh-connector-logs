@@ -2,19 +2,17 @@ const fs = require('fs');
 require('dotenv').config();
 
 var mod = {
-    getDateRange: (justYesterday) => {  
+    getDateRange: (totalDays) => {  
         var payload = {};
-        var yesterday = new Date();
-        yesterday.setDate(yesterday.getDate()-1);
-        yesterday.setHours(0,0,0,0);
-        payload.startDate = yesterday.toJSON();
-        if (justYesterday) {
-            yesterday.setHours(23,59,59,0);
-            payload.endDate = yesterday.toJSON();
-        } else {
-            var today = new Date();
-            payload.endDate = today.toJSON();
-        }
+        var startDate = new Date();
+        totalDays = !isNaN(totalDays) ? totalDays : 1;
+        totalDays = totalDays > 7 ? 7 : totalDays;
+        totalDays = totalDays < 1 ? 1 : totalDays;
+        startDate.setDate(startDate.getDate()-totalDays);
+        startDate.setHours(0,0,0,0);
+        payload.startDate = startDate.toJSON();
+        var endDate = new Date();
+        payload.endDate = endDate.toJSON();
         return payload;
     },
     getRandom: () => { return new Date().getTime(); },
